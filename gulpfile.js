@@ -51,10 +51,10 @@ gulp.task('vendor', function () {
     .pipe(gulp.dest('./dist/vendor/jquery-easing'))
 
   // Magnific Popup
-  // gulp.src([
-  //   './node_modules/magnific-popup/dist/*'
-  // ])
-  //   .pipe(gulp.dest('./dist/vendor/magnific-popup'))
+   gulp.src([
+     './node_modules/magnific-popup/dist/*'
+   ])
+     .pipe(gulp.dest('./dist/vendor/magnific-popup'))
 
   // Scrollreveal
   gulp.src([
@@ -65,7 +65,7 @@ gulp.task('vendor', function () {
 });
 
 const imagemin = require('gulp-imagemin');
-// Compress images 
+// Compress images
 gulp.task('images', function () {
   return gulp.src('assets/**/*')
     .pipe(imagemin())
@@ -159,3 +159,4 @@ gulp.task('build', ['default', 'browserSyncBuild'], function () {
   gulp.watch('./js/*.js', ['js']);
   gulp.watch('./*.html', browserSync.reload);
 });
+

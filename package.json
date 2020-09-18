@@ -26,18 +26,19 @@
         "url": "https://github.com/BlackrockDigital/startbootstrap-creative.git"
     },
     "dependencies": {
-        "bootstrap": "4.1.1",
+        "bootstrap": "^4.5.2",
         "font-awesome": "4.7.0",
         "gulp-htmlmin": "^4.0.0",
-        "jquery": "3.3.1",
+        "imagemin": "^7.0.1",
+        "jquery": "^3.5.1",
         "jquery.easing": "^1.4.1",
         "magnific-popup": "^1.1.0",
         "scrollreveal": "3.4.0"
     },
     "devDependencies": {
-        "browser-sync": "2.24.3",
+        "browser-sync": "^2.26.12",
         "gulp": "^3.9.1",
-        "gulp-clean-css": "3.9.4",
+        "gulp-clean-css": "^3.10.0",
         "gulp-header": "2.0.5",
         "gulp-imagemin": "^4.1.0",
         "gulp-rename": "^1.2.2",
