@@ -17,7 +17,7 @@ var banner = ['/*!\n',
 ].join('');
 
 // Copy third party libraries from /node_modules into /vendor
-gulp.task('vendor', function () {
+gulp.task('vendor', async function () {
 
   // Bootstrap
   gulp.src([
@@ -66,7 +66,7 @@ gulp.task('vendor', function () {
 
 const imagemin = require('gulp-imagemin');
 // Compress images
-gulp.task('images', function () {
+gulp.task('images', async function () {
   return gulp.src('assets/**/*')
     .pipe(imagemin())
     .pipe(gulp.dest('dist/assets'))
@@ -74,7 +74,7 @@ gulp.task('images', function () {
 );
 
 // Compile SCSS
-gulp.task('css:compile', function () {
+gulp.task('css:compile', async function () {
   return gulp.src('./scss/**/*.scss')
     .pipe(sass.sync({
       outputStyle: 'expanded'
@@ -83,7 +83,7 @@ gulp.task('css:compile', function () {
 });
 
 // Minify CSS
-gulp.task('css:minify', ['css:compile'], function () {
+gulp.task('css:minify', gulp.series('css:compile'), async function () {
   return gulp.src([
     './css/*.css',
     '!./css/*.min.css'
@@ -97,10 +97,10 @@ gulp.task('css:minify', ['css:compile'], function () {
 });
 
 // CSS
-gulp.task('css', ['css:compile', 'css:minify']);
+gulp.task('css', gulp.series('css:compile', 'css:minify'));
 
 // Minify JavaScript
-gulp.task('js:minify', function () {
+gulp.task('js:minify', async function () {
   return gulp.src([
     './js/*.js',
     '!./js/*.min.js'
@@ -115,7 +115,7 @@ gulp.task('js:minify', function () {
 
 var htmlmin = require('gulp-htmlmin');
 
-gulp.task('minify-html', function () {
+gulp.task('minify-html', async function () {
   return gulp.src('./index.html')
     .pipe(htmlmin())
     .pipe(htmlmin({ collapseWhitespace: true }))
@@ -123,13 +123,13 @@ gulp.task('minify-html', function () {
 });
 
 // JS
-gulp.task('js', ['js:minify']);
+gulp.task('js', gulp.series('js:minify'));
 
 // Default task
-gulp.task('default', ['css', 'js', 'vendor', 'images', 'minify-html']);
+gulp.task('default', gulp.series('css', 'js', 'vendor', 'images', 'minify-html'));
 
 // Configure the browserSync task
-gulp.task('browserSync', function () {
+gulp.task('browserSync', async function () {
   browserSync.init({
     server: {
       baseDir: "./"
@@ -138,7 +138,7 @@ gulp.task('browserSync', function () {
 });
 
 // Configure the browserSync task
-gulp.task('browserSyncBuild', function () {
+gulp.task('browserSyncBuild', async function () {
   browserSync.init({
     server: {
       baseDir: "./dist"
@@ -147,14 +147,14 @@ gulp.task('browserSyncBuild', function () {
 });
 
 // Dev task
-gulp.task('dev', ['default', 'browserSync'], function () {
+gulp.task('dev', gulp.series('default', 'browserSync'), async function () {
   gulp.watch('./scss/*.scss', ['css']);
   gulp.watch('./js/*.js', ['js']);
   gulp.watch('./*.html', browserSync.reload);
 });
 
 // Dev task
-gulp.task('build', ['default', 'browserSyncBuild'], function () {
+gulp.task('build', gulp.series('default', 'browserSyncBuild'), async function () {
   gulp.watch('./scss/*.scss', ['css']);
   gulp.watch('./js/*.js', ['js']);
   gulp.watch('./*.html', browserSync.reload);
