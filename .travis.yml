@@ -8,4 +8,4 @@ install:
   
 # install: pip3 install --upgrade pip  # all three OSes agree about 'pip3'
       
-script: npm install
+script: gulp
